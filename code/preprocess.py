@@ -75,6 +75,7 @@ class Datasets():
             img = img.resize((hp.img_size, hp.img_size))
             img = np.array(img, dtype=np.float32)
             img /= 255.
+            print(f"Sample image data: {img[:1, :1, :]}")
 
             # Grayscale -> RGB
             if len(img.shape) == 2:
@@ -137,8 +138,8 @@ class Datasets():
         #       the standardization.
         # =============================================================
 
-        # img = img      # replace this code
-        img = (img - self.mean) / self.std      # replace this code
+        # added 1e+10 to prevend "Division by Zero"
+        img = (img - self.mean) / (self.std + 1e-10)     # replace this code
         # =============================================================
 
         return img
