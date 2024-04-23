@@ -19,22 +19,23 @@ class Datasets():
     """
 
     def __init__(self, data_path, task):
-
+        print("I'm here!")
         self.data_path = data_path
         self.task = task
 
         # Dictionaries for (label index) <--> (class name)
         self.idx_to_class = {}
         self.class_to_idx = {}
-
+        print("I'm here2!")
         # For storing list of classes
         self.classes = [""] * hp.num_classes
 
         # Mean and std for standardization
         self.mean = np.zeros((hp.img_size,hp.img_size,3))
         self.std = np.ones((hp.img_size,hp.img_size,3))
+        print("I'm here4!")
         self.calc_mean_and_std()
-
+        print("I'm here3!")
         # Setup data generators
         # These feed data to the training and testing routine based on the dataset
         self.train_data = self.get_data(
@@ -42,6 +43,8 @@ class Datasets():
         self.test_data = self.get_data(
             os.path.join(self.data_path, "test/"), task == '3', False, False)
         # self.test_data = self.get_data("/content/homework5_cnns-glitterer/data/test/", task == '3', False, False)
+        
+        print("train data:", self.train_data)
 
     def calc_mean_and_std(self):
         """ Calculate mean and standard deviation of a sample of the
@@ -56,7 +59,7 @@ class Datasets():
         file_list = []
         for root, _, files in os.walk(os.path.join(self.data_path, "train/")):
             for name in files:
-                if name.endswith(".jpg"):
+                if name.endswith(".png"):
                     file_list.append(os.path.join(root, name))
 
         # Shuffle filepaths
@@ -75,7 +78,7 @@ class Datasets():
             img = img.resize((hp.img_size, hp.img_size))
             img = np.array(img, dtype=np.float32)
             img /= 255.
-            print(f"Sample image data: {img[:1, :1, :]}")
+            # print(f"Sample image data: {img[:1, :1, :]}")
 
             # Grayscale -> RGB
             if len(img.shape) == 2:
@@ -105,11 +108,13 @@ class Datasets():
         #
         # ==========================================================
 
+
         self.mean = np.mean(data_sample, axis=0)
         self.std = np.std(data_sample, axis=0)
 
         # ==========================================================
-
+        data_sample[0]
+        print("test:", data_sample[0])
         print("Dataset mean shape: [{0}, {1}, {2}]".format(
             self.mean.shape[0], self.mean.shape[1], self.mean.shape[2]))
 

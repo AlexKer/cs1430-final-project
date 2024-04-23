@@ -157,16 +157,14 @@ class VGGModel(tf.keras.Model):
         #       pretrained VGG16 weights into place so that only the classificaiton
         #       head is trained.
         for layer in self.vgg16:
-               layer.trainable = False
-
+            layer.trainable = False
         # TODO: Write a classification head for our 15-scene classification task.
 
         self.head = [
-               Flatten(),
-               Dense(512, activation='relu'),
-               Dropout(0.3),
-               Dense(256, activation='relu'),
-               Dense(15, activation="softmax")
+              Flatten(name="flatten"),
+              Dense(128, activation="relu"),
+              Dropout(0.2),
+              Dense(15, activation="softmax")
         ]
 
         # Don't change the below:
@@ -190,5 +188,6 @@ class VGGModel(tf.keras.Model):
         #       for tf.keras.losses)
         #       Read the documentation carefully, some might not work with our 
         #       model!
+        loss = tf.keras.losses.sparse_categorical_crossentropy(labels, predictions, from_logits=False)
 
-        return tf.keras.losses.sparse_categorical_crossentropy(labels, predictions)
+        return loss

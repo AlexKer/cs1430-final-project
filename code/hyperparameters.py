@@ -9,7 +9,7 @@ Number of epochs. We as you to use only 50 epochs as your budget.
 For extra credit, if you experiment with more complex networks, you
 can change this.
 """
-num_epochs = 50
+num_epochs = 5
 
 """
 A critical parameter that can dramatically affect whether training
@@ -28,7 +28,7 @@ Resize image size for task 1. Task 3 must have an image size of 224,
 so that is hard-coded elsewhere.
 """
 # img_size = 224
-img_size = 224 # task 1
+img_size = 48 # task 1
 
 """
 Sample size for calculating the mean and standard deviation of the
@@ -53,4 +53,4 @@ batch_size = 10
 """
 The number of image scene classes. Don't change this.
 """
-num_classes = 15
+num_classes = 7
