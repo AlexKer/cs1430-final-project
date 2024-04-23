@@ -27,8 +27,7 @@ momentum = 0.01
 Resize image size for task 1. Task 3 must have an image size of 224,
 so that is hard-coded elsewhere.
 """
-# img_size = 224
-img_size = 224 # task 1
+img_size = 100
 
 """
 Sample size for calculating the mean and standard deviation of the
@@ -53,4 +52,4 @@ batch_size = 10
 """
 The number of image scene classes. Don't change this.
 """
-num_classes = 15
+num_classes = 7
