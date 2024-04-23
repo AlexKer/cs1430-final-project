@@ -138,8 +138,7 @@ class Datasets():
         #       the standardization.
         # =============================================================
 
-        # added 1e+10 to prevend "Division by Zero"
-        img = (img - self.mean) / (self.std + 1e-10)     # replace this code
+        img = (img - self.mean) / (self.std)      # replace this code
         # =============================================================
 
         return img
