@@ -56,29 +56,29 @@ class YourModel(tf.keras.Model):
 
         self.architecture = [     
               # TASK 1 -> HYPTERPARAMETER IMG_SIZE CHANGE? TO 50??? -> REDUCE PARAM... BUT NOT GOOD RESULTS
-               # Done as task 1.1 - 1.4
-               Conv2D(10, kernel_size=(5, 5), activation='relu'),
-               MaxPool2D(pool_size=(2, 2)),
-               Flatten(),
-               Dense(32, activation='relu'),
-               Dense(15, activation='softmax')    
+              #  # Done as task 1.1 - 1.4
+              #  Conv2D(10, kernel_size=(5, 5), activation='relu'),
+              #  MaxPool2D(pool_size=(2, 2)),
+              #  Flatten(),
+              #  Dense(32, activation='relu'),
+              #  Dense(15, activation='softmax')    
  
               
               # #  # TRY 2
-              #  Conv2D(32, 3, 1, activation="relu", padding="same"),
+               Conv2D(32, 3, 1, activation="relu", padding="same"),
+               MaxPool2D(2, padding="same"),
+               Conv2D(64, 3, 1, activation="relu", padding="same"),
+               MaxPool2D(2, padding="same"),
+               Conv2D(128, 3, 1, activation="relu", padding="same"),
+               MaxPool2D(2, padding="same"),
+               Conv2D(256, 3, 1, activation="relu", padding="same"),
+               MaxPool2D(2, padding="same"),
+              #  Conv2D(512, 3, 1, activation="relu", padding="same"),
               #  MaxPool2D(2, padding="same"),
-              #  Conv2D(64, 3, 1, activation="relu", padding="same"),
-              #  MaxPool2D(2, padding="same"),
-              #  Conv2D(128, 3, 1, activation="relu", padding="same"),
-              #  MaxPool2D(2, padding="same"),
-              #  Conv2D(256, 3, 1, activation="relu", padding="same"),
-              #  MaxPool2D(2, padding="same"),
-              # #  Conv2D(512, 3, 1, activation="relu", padding="same"),
-              # #  MaxPool2D(2, padding="same"),
-              #  Flatten(),
-              #  Dropout(0.3),
-              #  Dense(units=128, activation='relu'),
-              #  Dense(units=15, activation='softmax')   
+               Flatten(),
+               Dropout(0.3),
+               Dense(units=128, activation='relu'),
+               Dense(units=15, activation='softmax')   
               ]
 
 
