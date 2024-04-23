@@ -56,7 +56,7 @@ class Datasets():
         file_list = []
         for root, _, files in os.walk(os.path.join(self.data_path, "train/")):
             for name in files:
-                if name.endswith(".jpg"):
+                if name.endswith(".png"):
                     file_list.append(os.path.join(root, name))
 
         # Shuffle filepaths
@@ -75,7 +75,7 @@ class Datasets():
             img = img.resize((hp.img_size, hp.img_size))
             img = np.array(img, dtype=np.float32)
             img /= 255.
-            print(f"Sample image data: {img[:1, :1, :]}")
+            # print(f"Sample image data: {img[:1, :1, :]}")
 
             # Grayscale -> RGB
             if len(img.shape) == 2:
