@@ -24,3 +24,4 @@ results/*
 code/logs/*
 code/checkpoints/*
 code/misclassified/*
+code/vgg16_imagenet.h5
