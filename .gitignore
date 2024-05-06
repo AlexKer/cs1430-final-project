@@ -1,6 +1,7 @@
 **/.DS_Store/
 .vscode
 .idea
+.DS_Store
 
 venv
 results/*
@@ -25,3 +26,4 @@ code/logs/*
 code/checkpoints/*
 code/misclassified/*
 code/vgg16_imagenet.h5
+code/checkpoint-1000/
