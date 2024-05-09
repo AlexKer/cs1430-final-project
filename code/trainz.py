@@ -1,6 +1,6 @@
-from emotion_dataloader import get_data_dl
+from emotion_dataloaderz import get_data_dl
 import matplotlib.pyplot as plt
-from model import ClassificationModel
+from modelz import ClassificationModel
 from torcheval.metrics import MulticlassAccuracy
 import torch
 from tqdm import tqdm
