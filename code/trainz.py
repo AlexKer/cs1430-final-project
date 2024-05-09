@@ -11,26 +11,21 @@ epochs = 100
 train = get_data_dl(batch_size, True)
 test = get_data_dl(batch_size, False)
 class_model = ClassificationModel(batch_size)
-fname = 'cnn_model.txt'
+fname = 'vgg_model.txt'
 metric = MulticlassAccuracy()
 for cur_epoch in tqdm(range(epochs)):
-    print("I'm here")
     metric = MulticlassAccuracy()
     all_loss = 0
-    count = 0;
-    for i, (images, labels) in tqdm(enumerate(train)):
+    
+    for i, (images, labels) in enumerate(train):
         class_model.optimizer.zero_grad()
-        # images = images.cuda()
-        # labels = labels.cuda()
+        images = images.cuda()
+        labels = labels.cuda()
         pred = class_model.forward(images)
         loss = class_model.loss_fn(pred, labels)
         loss.backward()
         class_model.optimizer.step()
         all_loss += loss.item()/(len(train))
-        #print("loss: " + str(loss.item())
-        # count += 1
-        # if count == 100:
-        #     break
     message = 'Epoch: ' + str(cur_epoch) + ' of ' + str(epochs) + ' with loss: ' + str(all_loss)
     print("Train " + str(all_loss))
     with torch.no_grad():
