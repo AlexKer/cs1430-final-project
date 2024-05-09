@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 
 batch_size = 128
-epochs = 50
+epochs = 100
 train = get_data_dl(batch_size, True)
 test = get_data_dl(batch_size, False)
 class_model = ClassificationModel(batch_size)
@@ -44,4 +44,4 @@ for cur_epoch in tqdm(range(epochs)):
         f.write(message)
         f.close()
 
-torch.save(class_model.state_dict(), '/mnt/c/Users/rdeme/Documents/Brown/CSCI_1430_Computer_Vision/Project/cs1430-final-project/')
+torch.save(class_model.state_dict(), '/home/rdemello/CSCI1430/')

@@ -35,11 +35,7 @@ class ClassificationModel(nn.Module):
             nn.Dropout(0.3),
             nn.ReLU(),
             
-            nn.Linear(6400, 800),
-            nn.Dropout(0.3),
-            nn.ReLU(),
-            
-            nn.Linear(800, 7),
+            nn.Linear(6400, 7),
             nn.Softmax()
         ).to(device)
         self.optimizer = torch.optim.Adam(params=self.model.parameters(), lr=lr)
