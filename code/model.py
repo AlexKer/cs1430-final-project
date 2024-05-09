@@ -15,6 +15,7 @@ class ClassificationModel(nn.Module):
             nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(32),
             nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2, stride=2),
             
             nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(64),
@@ -27,15 +28,15 @@ class ClassificationModel(nn.Module):
             nn.MaxPool2d(kernel_size=2, stride=2),
             
             nn.Flatten(),
-            nn.LazyLinear(12000),
+            nn.Linear(128*6*6, 1200),
             nn.Dropout(0.3),
             nn.ReLU(),
             
-            nn.Linear(12000, 6400),
+            nn.Linear(1200, 640),
             nn.Dropout(0.3),
             nn.ReLU(),
             
-            nn.Linear(6400, 7),
+            nn.Linear(640, 7),
             nn.Softmax()
         ).to(device)
         self.optimizer = torch.optim.Adam(params=self.model.parameters(), lr=lr)
