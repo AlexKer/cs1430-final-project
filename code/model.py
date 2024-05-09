@@ -6,7 +6,7 @@ from emotion_dataloader import get_data_dl
 
 # reference from HW5
 class VGGModel(nn.Module):
-    def __init__(self, batch_size:int, device='cuda', lr=0.09) -> None:
+    def __init__(self, batch_size:int, device='cuda', lr=0.01) -> None:
         super(VGGModel, self).__init__()
         self.batch_size = batch_size
         self.device = device
@@ -49,14 +49,14 @@ class VGGModel(nn.Module):
             nn.MaxPool2d(kernel_size=2, stride=2),
         ).to(device)
 
+        # VGG16/ reference: https://www.kaggle.com/code/carloalbertobarbano/vgg16-transfer-learning-pytorch
         self.classifier = nn.Sequential(
-            nn.Flatten(),
-            nn.Linear(512 * 7 * 7, 4096), #2048?
-            nn.ReLU(inplace=True),
-            nn.Dropout(0.3),
+            nn.Linear(512 * 7 * 7, 4096),
+            nn.ReLU(True),
+            nn.Dropout(),
             nn.Linear(4096, 4096),
-            nn.ReLU(inplace=True),
-            nn.Dropout(0.3),
+            nn.ReLU(True),
+            nn.Dropout(),
             nn.Linear(4096, 7),
         ).to(device)
 
@@ -65,5 +65,7 @@ class VGGModel(nn.Module):
 
     def forward(self, x):
         x = self.features(x)
+        print("Output size before classifier:", x.shape)
+        x = x.view(x.size(0), -1)
         x = self.classifier(x)
         return x

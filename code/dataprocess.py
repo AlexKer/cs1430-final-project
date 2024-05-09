@@ -44,7 +44,7 @@ valid_ds = ImageFolder(data_dir + '/test', valid_tfms)
 
 # PyTorch data Loader
 # pin_memory to get faster data transfer to CUDA-enabled GPUs
-batch_size = 70
+batch_size = 128
 train_dl = DataLoader(train_ds, batch_size, shuffle=True, pin_memory=True)
 valid_dl = DataLoader(valid_ds, batch_size, shuffle=True, pin_memory=True)
 

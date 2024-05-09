@@ -4,8 +4,8 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader, Dataset
 from PIL import Image
 
-# cwd = '/mnt/c/Users/rdeme/Documents/Brown/CSCI_1430_Computer_Vision/Project/cs1430-final-project/'
-cwd = '/home/soh62/CS1430-CV-Project/cs1430-final-project'
+cwd = '/home/soh62/CS1430-CV-Project/cs1430-final-project/'
+# cwd = '/Users/seikoh/BrownWorkspace/CS1430_Projects/cs1430-final-project/'
 
 def get_data_dl(batchsize: int, training: bool):
     '''
@@ -15,6 +15,7 @@ def get_data_dl(batchsize: int, training: bool):
     '''
     if training:
         train_transforms = transforms.Compose([
+            transforms.Resize((224, 224)),
             transforms.RandomVerticalFlip(0.3),
             transforms.RandomHorizontalFlip(0.3),
             transforms.RandomRotation(45),
@@ -26,6 +27,7 @@ def get_data_dl(batchsize: int, training: bool):
         dl = DataLoader(data, batch_size=batchsize, shuffle=True)
     else:
         test_transforms = transforms.Compose([
+            transforms.Resize((224, 224)),
             transforms.ToTensor(),
             # transforms.Grayscale()
         ])
