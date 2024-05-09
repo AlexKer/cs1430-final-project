@@ -13,6 +13,6 @@
 
 source activate ~/miniconda3/envs/CS1430-CV-Project
 export PYTORCH_CUDA_ALLOC_CONF='expandable_segments:True'
-cd ~/CS1430-CV-Project
+cd ~/CS1430-CV-Project/cs1430-final-project/code
 nvidia-smi
 python train_model.py
