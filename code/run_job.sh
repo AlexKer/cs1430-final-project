@@ -11,7 +11,7 @@
 #SBATCH --exclude=gpu[1601-1605,1701-1708,1801-1802,1901-1904,1905-1906,2002-2003]
 #SBATCH --gpus-per-node=1
 
-source activate ~/miniconda3/envs/CS1430-CV-Project
+source activate ~/miniconda3/envs/CVfinal_env
 export PYTORCH_CUDA_ALLOC_CONF='expandable_segments:True'
 cd ~/CS1430-CV-Project/cs1430-final-project/code
 nvidia-smi
