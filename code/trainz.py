@@ -10,7 +10,7 @@ batch_size = 128
 epochs = 100
 train = get_data_dl(batch_size, True)
 test = get_data_dl(batch_size, False)
-class_model = ClassificationModel(batch_size)
+class_model = ClassificationModel(batch_size).cuda()
 fname = 'vgg_model.txt'
 metric = MulticlassAccuracy()
 for cur_epoch in tqdm(range(epochs)):
