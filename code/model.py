@@ -55,7 +55,7 @@ class VGGModel(nn.Module):
             nn.Linear(512, 256),
             nn.ReLU(),
             nn.Linear(256, 7),
-            nn.Softmax(dim=1)
+            # nn.Softmax(dim=1)
         )
 
         # Optimizer

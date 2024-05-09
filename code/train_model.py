@@ -3,10 +3,10 @@ import torch
 from torch.utils.data import DataLoader
 import torchvision.transforms as tt
 from torchvision.datasets import ImageFolder
-# from emotion_dataloader import get_data_dl
 from model import VGGModel
 from torcheval.metrics import MulticlassAccuracy
 from tqdm import tqdm
+from torch.optim import Adam  # Import Adam optimizer
 
 # Set device
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -34,13 +34,15 @@ valid_dl = DataLoader(valid_ds, batch_size=batch_size, shuffle=True, pin_memory=
 # Model
 model = VGGModel(batch_size).to(device)
 
+# Optimizer
+optimizer = Adam(model.parameters(), lr=0.001)
+
 # Metrics and file setup
 metric = MulticlassAccuracy()
-fname = 'cnn_model.txt'
+fname = 'VGG_model.txt'
 
 # Training loop
 epochs = 50
-# Training loop
 for cur_epoch in tqdm(range(epochs), desc="Training Epochs"):
     metric.reset()
     train_loss = 0.0
@@ -48,14 +50,17 @@ for cur_epoch in tqdm(range(epochs), desc="Training Epochs"):
     model.train()
     for images, labels in tqdm(train_dl, desc=f"Epoch {cur_epoch+1} Training Batches", leave=False):
         images, labels = images.to(device), labels.to(device)
-        model.optimizer.zero_grad()
+        optimizer.zero_grad()
         outputs = model(images)
         outputs = outputs.float()  # Ensure outputs are float32
-        # print("Outputs dtype:", outputs.dtype)  # Debug statement
-        # print("Labels dtype:", labels.dtype)  # Debug statement
         loss = model.loss_fn(outputs, labels)
+        if torch.isnan(loss):
+            print("Nan loss detected")
+            print("Outputs:", outputs)
+            print("Labels:", labels)
         loss.backward()
-        model.optimizer.step()
+        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1)
+        optimizer.step()
         train_loss += loss.item() / len(train_dl)
     
     print(f"Epoch {cur_epoch+1}/{epochs}, Training Loss: {train_loss:.4f}")
@@ -86,7 +91,7 @@ for cur_epoch in tqdm(range(epochs), desc="Training Epochs"):
         torch.save({
             'epoch': cur_epoch + 1,
             'model_state_dict': model.state_dict(),
-            'optimizer_state_dict': model.optimizer.state_dict(),
+            'optimizer_state_dict': optimizer.state_dict(),  # Save Adam optimizer state
             'loss': train_loss,
         }, checkpoint_path)
         print(f"Saved checkpoint: {checkpoint_path}")
