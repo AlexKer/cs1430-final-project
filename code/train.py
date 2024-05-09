@@ -14,18 +14,23 @@ class_model = ClassificationModel(batch_size)
 fname = 'cnn_model.txt'
 metric = MulticlassAccuracy()
 for cur_epoch in tqdm(range(epochs)):
+    print("I'm here")
     metric = MulticlassAccuracy()
     all_loss = 0
-    
-    for i, (images, labels) in enumerate(train):
+    count = 0;
+    for i, (images, labels) in tqdm(enumerate(train)):
         class_model.optimizer.zero_grad()
-        images = images.cuda()
-        labels = labels.cuda()
+        # images = images.cuda()
+        # labels = labels.cuda()
         pred = class_model.forward(images)
         loss = class_model.loss_fn(pred, labels)
         loss.backward()
         class_model.optimizer.step()
         all_loss += loss.item()/(len(train))
+        #print("loss: " + str(loss.item())
+        # count += 1
+        # if count == 100:
+        #     break
     message = 'Epoch: ' + str(cur_epoch) + ' of ' + str(epochs) + ' with loss: ' + str(all_loss)
     print("Train " + str(all_loss))
     with torch.no_grad():
@@ -44,4 +49,4 @@ for cur_epoch in tqdm(range(epochs)):
         f.write(message)
         f.close()
 
-torch.save(class_model.state_dict(), '/home/rdemello/CSCI1430/')
+torch.save(class_model.state_dict(), '/Users/ziyanliu/Documents/csci1430/cs1430-final-project/')

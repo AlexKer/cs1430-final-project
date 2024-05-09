@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader, Dataset
 from PIL import Image
 
 # cwd = '/mnt/c/Users/rdeme/Documents/Brown/CSCI_1430_Computer_Vision/Project/cs1430-final-project/'
-cwd = '/home/rdemello/CSCI1430/cs1430-final-project/'
+cwd = '/Users/ziyanliu/Documents/csci1430/cs1430-final-project/'
 
 def get_data_dl(batchsize: int, training: bool):
     '''
