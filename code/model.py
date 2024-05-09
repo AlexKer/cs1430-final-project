@@ -69,6 +69,6 @@ class VGGModel(nn.Module):
         return x
 
     @staticmethod
-    def loss_fn(labels, predictions):
+    def loss_fn(predictions, labels):
         """ Loss function for model. """
-        return nn.CrossEntropyLoss(predictions, labels)
+        return nn.CrossEntropyLoss()(predictions, labels.long())
