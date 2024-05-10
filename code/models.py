@@ -5,7 +5,7 @@ Brown University
 """
 
 import tensorflow as tf
-from keras.layers import \
+from tensorflow.keras.layers import \
        Conv2D, MaxPool2D, Dropout, Flatten, Dense
 
 import hyperparameters as hp
@@ -166,7 +166,7 @@ class VGGModel(tf.keras.Model):
                Dense(512, activation='relu'),
                Dropout(0.3),
                Dense(256, activation='relu'),
-               Dense(15, activation="softmax")
+               Dense(7, activation="softmax")
         ]
 
         # Don't change the below:
