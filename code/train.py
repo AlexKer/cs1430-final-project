@@ -4,6 +4,7 @@ from model import VGGModel
 from torcheval.metrics import MulticlassAccuracy
 import torch
 from tqdm import tqdm
+import os
 
 
 batch_size = 128
@@ -14,7 +15,7 @@ test = get_data_dl(batch_size, False)
 # class_model = VGGModel(batch_size)
 device = 'cpu'  # Use CPU for local run
 class_model = VGGModel(batch_size, device=device)  # Initialize model with CPU device
-fname = 'VGG_model.txt'
+fname = 'VGG_model2.txt'
 metric = MulticlassAccuracy()
 
 for cur_epoch in tqdm(range(epochs), desc="Epoch Progress"):
@@ -38,7 +39,7 @@ for cur_epoch in tqdm(range(epochs), desc="Epoch Progress"):
     
     with torch.no_grad():
         val_loss = 0
-        for i, (image, labels) in tqdm(enumerate(test), total=len(test), desc=f"Validation Epoch {cur_epoch+1}"):
+        for i, (images, labels) in tqdm(enumerate(test), total=len(test), desc=f"Validation Epoch {cur_epoch+1}"):
             images = images.to(class_model.device)
             labels = labels.to(class_model.device)
             # image = images.to(device)  # Move image to CPU
@@ -57,5 +58,8 @@ for cur_epoch in tqdm(range(epochs), desc="Epoch Progress"):
         f.write(message)
         f.close()
 
-torch.save(class_model.state_dict(), '/home/soh62/CS1430-CV-Project/')
+
+save_path = '/home/soh62/CS1430-CV-Project/model.pth'
+os.makedirs(os.path.dirname(save_path), exist_ok=True)
+torch.save(class_model.state_dict(), save_path)
 # torch.save(class_model.state_dict(), './VGG_model_2.pth')  #
