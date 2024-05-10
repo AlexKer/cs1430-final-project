@@ -43,6 +43,8 @@ for cur_epoch in tqdm(range(epochs)):
             loss = loss_fn(pred, labels)
             metric.update(pred, labels)
             val_loss += loss.item()/(len(test))
+    if cur_epoch == 10:
+        torch.save(class_model.state_dict(), '/home/rdemello/CSCI1430/vision_transformer10.pth')
     acc = metric.compute()
     print("Val " + str(val_loss) + " accuracy: " + str(acc.item()))
     message += ' ' + 'Val: ' + str(val_loss) + ' accuracy ' + str(acc.item()) + '\n'
