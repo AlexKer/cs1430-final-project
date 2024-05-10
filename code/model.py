@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import torchvision.models as models
 from emotion_dataloader import get_data_dl
 
 
@@ -11,6 +10,7 @@ class ClassificationModel(nn.Module):
         self.batch_size = batch_size
         self.device = device
         self.loss_fn = nn.CrossEntropyLoss()
+        
         self.model = nn.Sequential( 
             nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(32),
