@@ -37,8 +37,8 @@ for cur_epoch in tqdm(range(epochs)):
     with torch.no_grad():
         val_loss = 0
         for i, (image, labels) in enumerate(test):
-            image = image.to(class_model.device)
-            labels = labels.to(class_model.device)
+            image = image.cuda()
+            labels = labels.cuda()
             pred = class_model.forward(image)
             loss = loss_fn(pred, labels)
             metric.update(pred, labels)
