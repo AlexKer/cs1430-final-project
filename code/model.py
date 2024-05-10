@@ -28,15 +28,17 @@ class ClassificationModel(nn.Module):
             nn.MaxPool2d(kernel_size=2, stride=2),
             
             nn.Flatten(),
-            nn.Linear(128*6*6, 1200),
+            
+            nn.Linear(128 * 6 * 6, 128),
+            nn.BatchNorm1d(128),
+            nn.ReLU(),
             nn.Dropout(0.3),
+            
+            nn.Linear(128, 64),
+            nn.BatchNorm1d(64),
             nn.ReLU(),
             
-            nn.Linear(1200, 640),
-            nn.Dropout(0.3),
-            nn.ReLU(),
-            
-            nn.Linear(640, 7),
+            nn.Linear(64, 7),
             nn.Softmax()
         ).to(device)
         self.optimizer = torch.optim.Adam(params=self.model.parameters(), lr=lr)
