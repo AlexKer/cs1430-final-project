@@ -14,4 +14,4 @@
 source activate ~/miniconda3/envs/CVfinal_env
 cd ~/CS1430-CV-Project/cs1430-final-project/code
 nvidia-smi
-python main.py --task 1
+python main.py --task 3
