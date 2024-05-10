@@ -12,7 +12,7 @@ epochs = 100
 train = get_data_dl(batch_size, True)
 test = get_data_dl(batch_size, False)
 # class_model = ClassificationModel(batch_size)
-class_model = VisionTransformer(48, 3, 6, 12, 768, 3072, 0.1, 0.1, 7).cuda()
+class_model = VisionTransformer(48, 3, 4, 4, 640, 256, 0.1, 0.1, 7).cuda()
 softmax = torch.nn.Softmax()
 optimizer = torch.optim.Adam(params=class_model.parameters(), lr=0.02)
 loss_fn = torch.nn.CrossEntropyLoss()
