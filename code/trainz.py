@@ -1,6 +1,6 @@
-from emotion_dataloaderz import get_data_dl
+from emotion_dataloader import get_data_dl
 import matplotlib.pyplot as plt
-from modelz import ClassificationModel
+from model import ClassificationModel
 from torcheval.metrics import MulticlassAccuracy
 import torch
 from tqdm import tqdm
@@ -10,8 +10,8 @@ batch_size = 128
 epochs = 100
 train = get_data_dl(batch_size, True)
 test = get_data_dl(batch_size, False)
-class_model = ClassificationModel(batch_size).cuda()
-fname = 'vgg_model.txt'
+class_model = ClassificationModel(batch_size)
+fname = 'vggz_model.txt'
 metric = MulticlassAccuracy()
 for cur_epoch in tqdm(range(epochs)):
     metric = MulticlassAccuracy()
@@ -22,6 +22,9 @@ for cur_epoch in tqdm(range(epochs)):
         images = images.cuda()
         labels = labels.cuda()
         pred = class_model.forward(images)
+        # images = images.to(class_model.device)  # Ensure images are on the correct device
+        # labels = labels.to(class_model.device)  # Ensure labels are on the correct device
+        # pred = class_model(images)  # Use the model as a callable, which is more conventional
         loss = class_model.loss_fn(pred, labels)
         loss.backward()
         class_model.optimizer.step()
@@ -34,6 +37,9 @@ for cur_epoch in tqdm(range(epochs)):
             image = image.to(class_model.device)
             labels = labels.to(class_model.device)
             pred = class_model.forward(image)
+            # image = image.to(class_model.device)  # Ensure image is on the correct device
+            # labels = labels.to(class_model.device)  # Ensure labels are on the correct device
+            # pred = class_model(image)  # Use the model as a callable
             loss = class_model.loss_fn(pred, labels)
             metric.update(pred, labels)
             val_loss += loss.item()/(len(test))

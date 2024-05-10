@@ -91,5 +91,6 @@ class ClassificationModel(nn.Module):
         self.optimizer = torch.optim.Adam(params=self.model.parameters(), lr=lr)
         
     def forward(self, images):
+        images = images.to(self.device)
         pred = self.model(images)
         return pred
