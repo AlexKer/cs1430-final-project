@@ -15,7 +15,7 @@ def get_data_dl(batchsize: int, training: bool):
     '''
     if training:
         train_transforms = transforms.Compose([
-            transforms.Resize((224, 224)),
+            # transforms.Resize((224, 224)),
             transforms.RandomVerticalFlip(0.3),
             transforms.RandomHorizontalFlip(0.3),
             transforms.RandomRotation(45),
@@ -27,7 +27,7 @@ def get_data_dl(batchsize: int, training: bool):
         dl = DataLoader(data, batch_size=batchsize, shuffle=True)
     else:
         test_transforms = transforms.Compose([
-            transforms.Resize((224, 224)),
+            # transforms.Resize((224, 224)),
             transforms.ToTensor(),
             # transforms.Grayscale()
         ])

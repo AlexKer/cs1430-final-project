@@ -23,27 +23,27 @@ for cur_epoch in tqdm(range(epochs), desc="Epoch Progress"):
     
     for i, (images, labels) in tqdm(enumerate(train), total=len(train), desc=f"Training Epoch {cur_epoch+1}"):
         class_model.optimizer.zero_grad()
-        # image = image.to(class_model.device)
-        # labels = labels.to(class_model.device)
-        image = images.to(device)  # Move image to CPU
-        labels = labels.to(device)  # Move labels to CPU
+        images = images.to(class_model.device)
+        labels = labels.to(class_model.device)
+        # image = images.to(device)  # Move image to CPU
+        # labels = labels.to(device)  # Move labels to CPU
         pred = class_model.forward(images)
         loss = class_model.loss_fn(pred, labels)
         loss.backward()
         class_model.optimizer.step()
         all_loss += loss.item()/(len(train))
         
-    message = 'Epoch: ' + str(cur_epoch) + ' of ' + str(epochs) + ' with loss: ' + str(all_loss)
+    message = 'Epoch: ' + str(cur_epoch) + ' of ' + str(epochs) + ' with loss: ' + str(all_loss)+ '\n'
     print("Train " + str(all_loss))
     
     with torch.no_grad():
         val_loss = 0
         for i, (image, labels) in tqdm(enumerate(test), total=len(test), desc=f"Validation Epoch {cur_epoch+1}"):
-            # image = image.to(class_model.device)
-            # labels = labels.to(class_model.device)
-            image = images.to(device)  # Move image to CPU
-            labels = labels.to(device)  # Move labels to CPU
-            pred = class_model.forward(image)
+            images = images.to(class_model.device)
+            labels = labels.to(class_model.device)
+            # image = images.to(device)  # Move image to CPU
+            # labels = labels.to(device)  # Move labels to CPU
+            pred = class_model.forward(images)
             loss = class_model.loss_fn(pred, labels)
             # metric.update(pred, labels)
             metric.update(pred.argmax(dim=1), labels)
@@ -57,5 +57,5 @@ for cur_epoch in tqdm(range(epochs), desc="Epoch Progress"):
         f.write(message)
         f.close()
 
-# torch.save(class_model.state_dict(), '/home/soh62/CS1430-CV-Project/')
-torch.save(class_model.state_dict(), './VGG_model.pth')  #
+torch.save(class_model.state_dict(), '/home/soh62/CS1430-CV-Project/')
+# torch.save(class_model.state_dict(), './VGG_model_2.pth')  #

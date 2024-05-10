@@ -50,22 +50,32 @@ class VGGModel(nn.Module):
         ).to(device)
 
         # VGG16/ reference: https://www.kaggle.com/code/carloalbertobarbano/vgg16-transfer-learning-pytorch
-        self.classifier = nn.Sequential(
-            nn.Linear(512 * 7 * 7, 4096),
-            nn.ReLU(True),
-            nn.Dropout(),
-            nn.Linear(4096, 4096),
-            nn.ReLU(True),
-            nn.Dropout(),
-            nn.Linear(4096, 7),
-        ).to(device)
+        # self.classifier = nn.Sequential(
+        #     nn.Linear(512 * 7 * 7, 4096),
+        #     nn.ReLU(),
+        #     nn.Dropout(),
+        #     nn.Linear(4096, 4096),
+        #     nn.ReLU(),
+        #     nn.Dropout(),
+        #     nn.Linear(4096, 7),
+        # ).to(device)
 
+        self.classifier = nn.Sequential(
+            nn.Linear(512, 256),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.Linear(256, 128),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.Linear(128, 7),
+        ).to(device)
+        
         self.loss_fn = nn.CrossEntropyLoss()
         self.optimizer = optim.Adam(self.parameters(), lr=lr)
 
     def forward(self, x):
         x = self.features(x)
-        print("Output size before classifier:", x.shape)
+        # print("Output size before classifier:", x.shape)
         x = x.view(x.size(0), -1)
         x = self.classifier(x)
         return x
