@@ -78,7 +78,7 @@ class YourModel(tf.keras.Model):
                Flatten(),
                Dropout(0.3),
                Dense(units=128, activation='relu'),
-               Dense(units=15, activation='softmax')   
+               Dense(units=7, activation='softmax')   
               ]
 
 
@@ -166,7 +166,7 @@ class VGGModel(tf.keras.Model):
                Dense(512, activation='relu'),
                Dropout(0.3),
                Dense(256, activation='relu'),
-               Dense(15, activation="softmax")
+               Dense(7, activation="softmax")
         ]
 
         # Don't change the below:
