@@ -1,15 +1,13 @@
 import torch
 import torch.nn as nn
+from vit_pytorch import ViT
 from emotion_dataloader import get_data_dl
 
 
 
 class ClassificationModel(nn.Module):
-    def __init__(self, batch_size:int, device = 'cuda', lr=0.09) -> None:
+    def __init__(self) -> None:
         super(ClassificationModel, self).__init__()
-        self.batch_size = batch_size
-        self.device = device
-        self.loss_fn = nn.CrossEntropyLoss()
         
         self.model = nn.Sequential( 
             nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1),
@@ -40,10 +38,26 @@ class ClassificationModel(nn.Module):
             
             nn.Linear(64, 7),
             nn.Softmax()
-        ).to(device)
-        self.optimizer = torch.optim.Adam(params=self.model.parameters(), lr=lr)
+        )
         
     def forward(self, images):
         pred = self.model(images)
         return pred
     
+class ViTClassifier(nn.Module):
+    def __init__(self, num_classes):
+        super(ViTClassifier, self).__init__()
+        self.vit = ViT(
+            image_size = 48,
+            patch_size = 4,
+            num_classes = num_classes,
+            dim = 512,
+            depth = 4,
+            heads = 4,
+            mlp_dim = 256,
+            dropout = 0.1,
+            emb_dropout = 0.1
+        )
+
+    def forward(self, x):
+        return self.vit(x)
