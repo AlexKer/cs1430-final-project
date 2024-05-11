@@ -16,9 +16,9 @@ softmax = torch.nn.Softmax()
 optimizer = torch.optim.Adam(params=class_model.parameters(), lr=0.05)
 n_samples = 7178
 n_classes = 7
-weight_class = torch.Tensor([n_samples/(n_classes*958),n_samples/(n_classes*111),n_samples/(n_classes*1024),n_samples/(n_classes*1774),n_samples/(n_classes*1233),n_samples/(n_classes*1247),n_samples/(n_classes*831)]).cuda()
-loss_fn = torch.nn.CrossEntropyLoss(weight=weight_class)
-fname = 'vision_transformer_weight.txt'
+# weight_class = torch.Tensor([n_samples/(n_classes*958),n_samples/(n_classes*111),n_samples/(n_classes*1024),n_samples/(n_classes*1774),n_samples/(n_classes*1233),n_samples/(n_classes*1247),n_samples/(n_classes*831)]).cuda()
+loss_fn = torch.nn.CrossEntropyLoss()
+fname = 'vision_transformer.txt'
 metric = MulticlassAccuracy()
 for cur_epoch in tqdm(range(epochs)):
     metric = MulticlassAccuracy()
@@ -47,7 +47,7 @@ for cur_epoch in tqdm(range(epochs)):
             metric.update(pred, labels)
             val_loss += loss.item()/(len(test))
     if cur_epoch == 10:
-        torch.save(class_model.state_dict(), '/home/rdemello/CSCI1430/vision_transformer10_wt.pth')
+        torch.save(class_model.state_dict(), '/home/rdemello/CSCI1430/vision_transformer10.pth')
     acc = metric.compute()
     print("Val " + str(val_loss) + " accuracy: " + str(acc.item()))
     message += ' ' + 'Val: ' + str(val_loss) + ' accuracy ' + str(acc.item()) + '\n'
@@ -55,4 +55,4 @@ for cur_epoch in tqdm(range(epochs)):
         f.write(message)
         f.close()
 
-torch.save(class_model.state_dict(), '/home/rdemello/CSCI1430/vision_transformer_weighted.pth')
+torch.save(class_model.state_dict(), '/home/rdemello/CSCI1430/vision_transformer.pth')
