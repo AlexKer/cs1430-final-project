@@ -8,7 +8,6 @@
 #SBATCH -e job_%x_%j.e
 #SBATCH -o job_%x_%j.o
 #SBATCH --nodes=1
-#SBATCH --exclude=gpu[]
 #SBATCH --gpus-per-node=1
 
 source activate ~/miniconda3/envs/DLproject
