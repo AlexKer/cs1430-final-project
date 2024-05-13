@@ -6,14 +6,14 @@ import torch
 from tqdm import tqdm
 
 batch_size = 128
-epochs = 2
+epochs = 100
 train = get_data_dl(batch_size, True)
 test = get_data_dl(batch_size, False)
 class_model = ModifiedVGGModel().cuda()
 # class_model = ModifiedVGGModel()
 optimizer = torch.optim.Adam(params=class_model.parameters(), lr=0.05)
 loss_fn = torch.nn.CrossEntropyLoss()
-fname = 'modified_vgg_model.txt'
+fname = 'modified_VGG_model.txt'
 metric = MulticlassAccuracy()
 
 for cur_epoch in tqdm(range(epochs), desc="Epoch Progress"):
@@ -45,7 +45,7 @@ for cur_epoch in tqdm(range(epochs), desc="Epoch Progress"):
             val_loss += loss.item()/(len(test))
             test_progress.set_postfix(val_loss=val_loss)
     if cur_epoch == 10:
-        torch.save(class_model.state_dict(), '/home/soh62/CS1430-CV-Project/cs1430-final-project/code/VGG_model_2.pth')
+        torch.save(class_model.state_dict(), '/home/soh62/newCS1430-CV-Project/cs1430-final-project/code/Modified_VGG_model{cur_epoch}.pth')
     acc = metric.compute()
     print("Val " + str(val_loss) + " accuracy: " + str(acc.item()))
     message += ' ' + 'Val: ' + str(val_loss) + ' accuracy ' + str(acc.item()) + '\n'

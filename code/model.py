@@ -22,8 +22,10 @@ class ModifiedVGGModel(nn.Module):
             nn.BatchNorm2d(128),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),
+            
             # Flatten
             nn.Flatten(),
+            
             # Classifier
             nn.Linear(128 * 6 * 6, 512),
             nn.BatchNorm1d(512),
