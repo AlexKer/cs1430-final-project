@@ -3,13 +3,14 @@ import torch
 import numpy as np
 # from model import VGGModel
 from torchvision.transforms import Grayscale, ToTensor
+from model import ClassificationModel, ViTClassifier, get_PCA_mat
 
 # load training model
-# device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# model = VGGModel(learning_rate=0.001)
-# model.load_state_dict(torch.load('emotion_vgg_model.pth'))
-# model.to(device)
-# model.eval()
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+model = ClassificationModel()
+model.load_state_dict(torch.load('../CNN.pth'))
+model.to(device)
+model.eval()
 
 emotion_labels = {0: "Angry", 1: "Disgust", 2: "Fear", 3: "Happy", 4: "Sad", 5: "Surprise", 6: "Neutral"}
 
@@ -20,31 +21,31 @@ face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_fronta
 def camcapture():
     
     # capture video from webcam.
-    cap = cv2.VideoCapture(-1)
+    cap = cv2.VideoCapture(0)
 
     while True:
         # Read the frame
         _, img = cap.read()
 
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        # gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
         # Detect faces and draw rectangale around face
-        faces = face_cascade.detectMultiScale(gray, 1.1, 4)
+        faces = face_cascade.detectMultiScale(img, 1.1, 4)
         for (x, y, w, h) in faces:
             # Extract the face region from the gray image
-            face_roi = gray[y:y+h, x:x+w]
-            face_roi = cv2.resize(face_roi, (224, 224))  # Resize to the input size expected by the model
-            # tensor_image = ToTensor()(face_roi).unsqueeze(0).to(device)  # Convert to tensor and add batch dimension
-
+            face_roi = img[y:y+h, x:x+w]
+            face_roi = cv2.resize(face_roi, (48, 48))  # Resize to the input size expected by the model
+            tensor_image = ToTensor()(face_roi).unsqueeze(0).to(device)  # Convert to tensor and add batch dimension
+            
             # Predict the emotion
-            # prediction = model(tensor_image)
-            # predicted_emotion = emotion_labels[torch.argmax(prediction).item()]
+            prediction = model(tensor_image)
+            predicted_emotion = emotion_labels[torch.argmax(prediction).item()]
 
             # Draw rectangle around face and add label
             cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
 
             # Text for the label
-            label = "happy"
+            label = predicted_emotion
             text_color = (255, 255, 255)
             background_color = (255, 0, 0)
             font_scale = 0.8

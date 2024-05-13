@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from vit_pytorch import ViT
+# from vit_pytorch import ViT
 from emotion_dataloader import get_data_dl
 import os
 import numpy as np
