@@ -18,9 +18,9 @@ face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_fronta
 
 
 def camcapture():
-
+    
     # capture video from webcam.
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(-1)
 
     while True:
         # Read the frame
