@@ -4,9 +4,10 @@ from model import ModifiedVGGModel
 from torcheval.metrics import MulticlassAccuracy
 import torch
 from tqdm import tqdm
+import os
 
 batch_size = 128
-epochs = 100
+epochs = 500
 train = get_data_dl(batch_size, True)
 test = get_data_dl(batch_size, False)
 class_model = ModifiedVGGModel().cuda()
@@ -15,6 +16,11 @@ optimizer = torch.optim.Adam(params=class_model.parameters(), lr=0.05)
 loss_fn = torch.nn.CrossEntropyLoss()
 fname = 'modified_VGG_model.txt'
 metric = MulticlassAccuracy()
+
+# Ensure the checkpoints directory exists
+checkpoint_dir = './checkpoints'
+if not os.path.exists(checkpoint_dir):
+    os.makedirs(checkpoint_dir)
 
 for cur_epoch in tqdm(range(epochs), desc="Epoch Progress"):
     metric = MulticlassAccuracy()
@@ -44,8 +50,10 @@ for cur_epoch in tqdm(range(epochs), desc="Epoch Progress"):
             metric.update(pred, labels)
             val_loss += loss.item()/(len(test))
             test_progress.set_postfix(val_loss=val_loss)
-    if cur_epoch == 10:
-        torch.save(class_model.state_dict(), '/home/soh62/newCS1430-CV-Project/cs1430-final-project/code/Modified_VGG_model{cur_epoch}.pth')
+    if cur_epoch % 10 == 0:
+        checkpoint_path = os.path.join(checkpoint_dir, f'Modified_VGG_model2_epoch_{cur_epoch}.h5')
+        torch.save(class_model.state_dict(), checkpoint_path)
+        torch.save(class_model.state_dict(), '/home/soh62/newCS1430-CV-Project/cs1430-final-project/code/Modified_VGG_model2_{cur_epoch}.pth')
     acc = metric.compute()
     print("Val " + str(val_loss) + " accuracy: " + str(acc.item()))
     message += ' ' + 'Val: ' + str(val_loss) + ' accuracy ' + str(acc.item()) + '\n'
@@ -53,6 +61,7 @@ for cur_epoch in tqdm(range(epochs), desc="Epoch Progress"):
         f.write(message)
         f.close()
 
-torch.save(class_model.state_dict(),'./modified_vgg_model_final.pth') 
+torch.save(class_model.state_dict(),'./modified_vgg_model_final2.pth') 
+
 
 
