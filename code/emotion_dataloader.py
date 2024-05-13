@@ -4,7 +4,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader, Dataset
 from PIL import Image
 
-cwd = '/home/soh62/newCS1430-CV-Project/cs1430-final-project'
+cwd = '/home/soh62/newCS1430-CV-Project/cs1430-final-project/'
 # cwd = '/Users/seikoh/BrownWorkspace/CS1430_Projects/cs1430-final-project/'
 
 def get_data_dl(batchsize: int, training: bool):
