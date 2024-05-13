@@ -2,8 +2,21 @@ import torch
 import torch.nn as nn
 from vit_pytorch import ViT
 from emotion_dataloader import get_data_dl
+import os
+import numpy as np
+from PIL import Image
+from sklearn.decomposition import PCA
 
-
+def load_images_from_folder(folder):
+    images = []
+    for emotion in os.listdir(folder):
+        emotion_folder = os.path.join(folder, emotion)
+        for filename in os.listdir(emotion_folder):
+            img_path = os.path.join(emotion_folder, filename)
+            img = Image.open(img_path).convert('L')  # convert image to grayscale
+            img = np.array(img)
+            images.append(img.flatten())
+    return np.array(images)
 
 class ClassificationModel(nn.Module):
     def __init__(self) -> None:
@@ -61,3 +74,12 @@ class ViTClassifier(nn.Module):
 
     def forward(self, x):
         return self.vit(x)
+    
+def get_PCA_mat():
+    test = load_images_from_folder('data/test')
+    train = load_images_from_folder('data/train')
+    array = np.concatenate([train, test])
+    print('fitting')
+    pca = PCA(n_components=50).fit(array) 
+    
+    return pca

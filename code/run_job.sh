@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name="VisionT"
+#SBATCH --job-name="CNN"
 #SBATCH --partition=gpus
 #SBATCH --mem=120G
 #SBATCH --cpus-per-task=4
