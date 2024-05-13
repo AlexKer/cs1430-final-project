@@ -1,81 +1,41 @@
 import torch
 import torch.nn as nn
-import torchvision.models as models
 import torch.optim as optim
-from emotion_dataloader import get_data_dl
 
-# reference from HW5
-class VGGModel(nn.Module):
-    def __init__(self, batch_size:int, device='cuda', lr=0.01) -> None:
-        super(VGGModel, self).__init__()
-        self.batch_size = batch_size
-        self.device = device
-        self.features = nn.Sequential(
-            # Block 1
-            nn.Conv2d(3, 64, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(64, 64, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
+class ModifiedVGGModel(nn.Module):
+    def __init__(self) -> None:
+        super(ModifiedVGGModel, self).__init__()
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+        self.model = nn.Sequential(
+            # Layer 1
+            nn.Conv2d(3, 32, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(32),
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),
-            # Block 2
-            nn.Conv2d(64, 128, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(128, 128, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
+            # Layer 2
+            nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(64),
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),
-            # Block 3
-            nn.Conv2d(128, 256, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(256, 256, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(256, 256, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
+            # Layer 3
+            nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1),
+            nn.BatchNorm2d(128),
+            nn.ReLU(),
             nn.MaxPool2d(kernel_size=2, stride=2),
-            # Block 4
-            nn.Conv2d(256, 512, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(512, 512, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(512, 512, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-            # Block 5
-            nn.Conv2d(512, 512, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(512, 512, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.Conv2d(512, 512, kernel_size=3, padding=1),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-        ).to(device)
-
-        # VGG16/ reference: https://www.kaggle.com/code/carloalbertobarbano/vgg16-transfer-learning-pytorch
-        # self.classifier = nn.Sequential(
-        #     nn.Linear(512 * 7 * 7, 4096),
-        #     nn.ReLU(),
-        #     nn.Dropout(),
-        #     nn.Linear(4096, 4096),
-        #     nn.ReLU(),
-        #     nn.Dropout(),
-        #     nn.Linear(4096, 7),
-        # ).to(device)
-
-        self.classifier = nn.Sequential(
-            nn.Linear(512, 256),
+            # Flatten
+            nn.Flatten(),
+            # Classifier
+            nn.Linear(128 * 6 * 6, 512),
+            nn.BatchNorm1d(512),
             nn.ReLU(),
             nn.Dropout(0.3),
-            nn.Linear(256, 128),
+            nn.Linear(512, 64),
+            nn.BatchNorm1d(64),
             nn.ReLU(),
-            nn.Dropout(0.3),
-            nn.Linear(128, 7),
-        ).to(device)
-        
-        self.loss_fn = nn.CrossEntropyLoss()
-        self.optimizer = optim.Adam(self.parameters(), lr=lr)
+            nn.Linear(64, 7),
+            nn.Softmax(dim=1)
+        )
 
-    def forward(self, x):
-        x = self.features(x)
-        # print("Output size before classifier:", x.shape)
-        x = x.view(x.size(0), -1)
-        x = self.classifier(x)
-        return x
+    def forward(self, images):
+        pred = self.model(images)
+        return pred

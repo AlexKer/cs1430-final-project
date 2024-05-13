@@ -4,8 +4,8 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader, Dataset
 from PIL import Image
 
-cwd = '/home/soh62/CS1430-CV-Project/cs1430-final-project/'
-# cwd = '/Users/seikoh/BrownWorkspace/CS1430_Projects/cs1430-final-project/'
+# cwd = '/home/soh62/CS1430-CV-Project/cs1430-final-project/'
+cwd = '/Users/seikoh/BrownWorkspace/CS1430_Projects/cs1430-final-project/'
 
 def get_data_dl(batchsize: int, training: bool):
     '''
@@ -33,5 +33,4 @@ def get_data_dl(batchsize: int, training: bool):
         ])
         data = dset.ImageFolder(cwd + 'data/test', transform = test_transforms)
         dl = DataLoader(data, batch_size=batchsize, shuffle=True, drop_last=True)
-    return dl
     return dl
