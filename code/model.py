@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-from vit_pytorch import ViT
+# from vit_pytorch import ViT
 from emotion_dataloader import get_data_dl
 import os
 import numpy as np
@@ -8,6 +8,14 @@ from PIL import Image
 from sklearn.decomposition import PCA
 
 def load_images_from_folder(folder):
+    """
+    Loads all images inside a folder into a single numpy array
+    Args:
+        folder (string): path to folder
+
+    Returns:
+        numpy.array: array containing all images in the folder 
+    """
     images = []
     for emotion in os.listdir(folder):
         emotion_folder = os.path.join(folder, emotion)
@@ -76,10 +84,21 @@ class ViTClassifier(nn.Module):
         return self.vit(x)
     
 def get_PCA_mat():
+    """
+    Calculates the principle component analysis weight matrix for the train and test data.
+    The train and test data must have the following structure:
+    data
+        train
+            angry, disgusted, fearful, happy, neutral, sad, surprised
+        test
+            angry, disgusted, fearful, happy, neutral, sad, surprised
+    
+    Returns:
+        sklearn.decomposition.PCA: returns PCA which transforms inputs into the first 50 eigenvalues
+    """
     test = load_images_from_folder('data/test')
     train = load_images_from_folder('data/train')
     array = np.concatenate([train, test])
-    print('fitting')
     pca = PCA(n_components=50).fit(array) 
     
     return pca

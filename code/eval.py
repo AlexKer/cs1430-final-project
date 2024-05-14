@@ -8,16 +8,19 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 from torchsummary import summary
 
+"""
+Generates confusion matrix and calculates F1 score for chosen model loaded from .pth file
+"""
+
 batch_size = 128
 test = get_data_dl(batch_size, False)
-# pca = get_PCA_mat()
-class_model = ClassificationModel().cuda()
-summary(class_model, (3,48,48))
-class_model = ViTClassifier(7).cuda()
-summary(class_model, (3,48,48))
-aaa
+# pca = get_PCA_mat() # uncomment for PCA classifier model
+class_model = ClassificationModel().cuda() # uncomment for CNN model
+# summary(class_model, (3,48,48)) # uncomment for model summary
+# class_model = ViTClassifier(7).cuda() # uncomment for ViTB12 model
+# summary(class_model, (3,48,48)) # uncomment for model summary
 flatten = nn.Flatten()
-# class_model = nn.Sequential(
+# class_model = nn.Sequential( # uncomment for PCA classifier model
 #     nn.Linear(50, 50),
 #     nn.BatchNorm1d(50),
 #     nn.ReLU(),
@@ -30,16 +33,16 @@ flatten = nn.Flatten()
 #     nn.Softmax(dim=1)
 # ).cuda()
 softmax = torch.nn.Softmax()
-class_model.load_state_dict(torch.load('/mnt/c/Users/rdeme/Documents/Brown/CSCI_1430_Computer_Vision/Project/cs1430-final-project/CNN.pth'))
+class_model.load_state_dict(torch.load('../weights/CNN.pth')) # Replace with model weights
 all_pred = torch.empty(0)
 all_label = torch.empty(0)
 with torch.no_grad():
     val_loss = 0
     for i, (image, labels) in enumerate(test):
-        # image = flatten(image)
-        # image = pca.transform(image.numpy())
-        # image = torch.Tensor(image).cuda()
-        image = image.cuda()
+        # image = flatten(image) # uncomment for PCA classifier model
+        # image = pca.transform(image.numpy()) # uncomment for PCA classifier model
+        # image = torch.Tensor(image) # uncomment for PCA classifier model
+        image = image.cuda() 
         labels = labels.cuda()
         pred = class_model.forward(image)
         all_pred = torch.cat([all_pred, pred.cpu().detach()], dim=0)

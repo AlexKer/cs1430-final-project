@@ -8,7 +8,7 @@ from model import ClassificationModel, ViTClassifier, get_PCA_mat
 # load training model
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = ClassificationModel()
-model.load_state_dict(torch.load('../CNN.pth'))
+model.load_state_dict(torch.load('../weights/CNN.pth'))
 model.to(device)
 model.eval()
 

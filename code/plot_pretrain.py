@@ -1,10 +1,11 @@
 import matplotlib.pyplot as plt
 
-cwd = '/mnt/c/Users/rdeme/Documents/Brown/CSCI_1430_Computer_Vision/Project/cs1430-final-project/'
-log_files = [cwd+'CNN.txt', cwd+'PCA.txt', cwd+'vision_transformer.txt', cwd+'vision_transformer_weight.txt']
+log_files = ['CNN.txt', 'PCA.txt', 'vision_transformer.txt', 'vision_transformer_weight.txt'] # Can replace with all of your log files 
 
 plt.figure(figsize=(12, 8))
-
+"""
+Plots validation loss, train loss and accuracy from a generated log file from train.py
+"""
 for i, log_file in enumerate(log_files):
     with open(log_file, 'r') as f:
         lines = f.readlines()
