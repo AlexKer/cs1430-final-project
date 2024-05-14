@@ -32,8 +32,8 @@ softmax = torch.nn.Softmax()
 optimizer = torch.optim.Adam(params=class_model.parameters(), lr=0.05)
 n_samples = 7178
 n_classes = 7
-# weight_class = torch.Tensor([n_samples/(n_classes*958),n_samples/(n_classes*111),n_samples/(n_classes*1024),n_samples/(n_classes*1774),n_samples/(n_classes*1233),n_samples/(n_classes*1247),n_samples/(n_classes*831)]).cuda()
-loss_fn = torch.nn.CrossEntropyLoss()
+weight_class = torch.Tensor([n_samples/(n_classes*958),n_samples/(n_classes*111),n_samples/(n_classes*1024),n_samples/(n_classes*1774),n_samples/(n_classes*1233),n_samples/(n_classes*1247),n_samples/(n_classes*831)]).cuda()
+loss_fn = torch.nn.CrossEntropyLoss(weight=weight_class)
 fname = 'CNN.txt'
 metric = MulticlassAccuracy()
 for cur_epoch in tqdm(range(epochs)):

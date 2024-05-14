@@ -1,6 +1,6 @@
 import torch
 import torch.nn as nn
-# from vit_pytorch import ViT
+from vit_pytorch import ViT
 from emotion_dataloader import get_data_dl
 import os
 import numpy as np
@@ -65,8 +65,8 @@ class ViTClassifier(nn.Module):
             patch_size = 4,
             num_classes = num_classes,
             dim = 512,
-            depth = 4,
-            heads = 4,
+            depth = 2,
+            heads = 2,
             mlp_dim = 256,
             dropout = 0.1,
             emb_dropout = 0.1

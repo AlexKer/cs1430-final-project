@@ -19,7 +19,7 @@ def get_data_dl(batchsize: int, training: bool):
             transforms.RandomHorizontalFlip(0.3),
             transforms.RandomRotation(45),
             transforms.ToTensor(),
-            # transforms.Grayscale(),
+            # transforms.Grayscale(), #PCA must uncomment
             transforms.Normalize(mean=[0.485], std=[0.229])
         ])
         data = dset.ImageFolder(cwd + 'data/train', transform = train_transforms)
@@ -27,7 +27,7 @@ def get_data_dl(batchsize: int, training: bool):
     else:
         test_transforms = transforms.Compose([
             transforms.ToTensor(),
-            # transforms.Grayscale()
+            # transforms.Grayscale() #PCA must uncomment
         ])
         data = dset.ImageFolder(cwd + 'data/test', transform = test_transforms)
         dl = DataLoader(data, batch_size=batchsize, shuffle=True)
