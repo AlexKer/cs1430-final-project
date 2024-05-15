@@ -70,8 +70,7 @@ class VGGModel(tf.keras.Model):
         for layer in self.vgg16:
                layer.trainable = False
 
-        # TODO: Write a classification head for our 15-scene classification task.
-
+        # A classification head for our 6 emotion classification task.
         self.head = [
                Flatten(),
                Dense(256, activation='relu'),
@@ -95,11 +94,4 @@ class VGGModel(tf.keras.Model):
     @staticmethod
     def loss_fn(labels, predictions):
         """ Loss function for model. """
-
-        # TASK 3
-        # TODO: Select a loss function for your network (see the documentation
-        #       for tf.keras.losses)
-        #       Read the documentation carefully, some might not work with our 
-        #       model!
-
         return tf.keras.losses.sparse_categorical_crossentropy(labels, predictions)
