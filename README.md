@@ -1,12 +1,5 @@
-**Project proposal - Answer these questions please**
-- What are the skills of the team members? Conduct a skill assessment!
-- What is your project idea?
-- What data will you use?
-- What software/hardware will you use?
-- Who will do what?
-- How will you know whether you have made progress? What will you measure?
-- What problems do you foresee or have?
-- Is there anything that we can do to help? e.g., resources, equipment.
+#CSCI 1430 Final Project Report: What Does Your Face Say?
 
+Computer Visionaries: Roger De Mello Koch, Seik Oh, Ziyan Liu, Alex Ker
 
-**data from https://www.kaggle.com/datasets/ananthu017/emotion-detection-fer**
+Emotion recognition is important in various fields, such as psychology and medicine, helping to diagnose, predict and analyze behavior. In this project, we implement deep learning models that utilizes Convolutional Neural Networks (CNNs) and Transformer architectures. We compare these models to fine-tuned pre-trained models to evaluate their efficacy in emotion detection. Our best performing model, fine-tuned ViT, achieved ~70\% validation accuracy and we constructed a real-time emotion classification pipeline. 
