@@ -1,4 +1,4 @@
-#CSCI 1430 Final Project Report: What Does Your Face Say?
+# CSCI 1430 Final Project Report: What Does Your Face Say?
 
 Computer Visionaries: Roger De Mello Koch, Seik Oh, Ziyan Liu, Alex Ker
 
